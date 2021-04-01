@@ -1,19 +1,35 @@
+/* llist.h
+ * Generic Linked List
+ */
+
 #include "common.h"
 
-typedef struct lnode {
-    struct lnode *parent;
-    struct lnode *child;
-    void* data;
-} llist;
+#ifndef LLIST_H
+#define LLIST_H
 
-llist* llist_new(void* data, size_t size);
+struct node {
+    void *data;
+    struct node *next;
+};
 
-llist* llist_tail(llist* list);
+typedef struct node * llist;
 
-bool llist_is_empty(llist* list);
+/* llist_create: Create a linked list */
+llist *llist_create(void *data);
 
-void llist_print(llist* list, void (*print)(llist*));
+/* llist_free: Free a linked list */
+void llist_free(llist *list);
 
-void llist_push(llist* list, void* data, size_t size);
+/* llist_add_inorder: Add to sorted linked list */
+int llist_add_inorder(void *data, llist *list, int (*comp)(void *, void *));
 
-void llist_pop(llist* list);
+/* llist_push: Add to head of list */
+void llist_push(llist *list, void *data);
+
+/* llist_pop: remove and return head of linked list */
+void *llist_pop(llist *list);
+
+/* llist_print: print linked list */
+void llist_print(llist *list, void (*print)(void *data));
+
+#endif
