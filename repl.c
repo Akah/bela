@@ -1,6 +1,7 @@
 #include "common.h"
 #include "lexer.h"
 #include "llist.h"
+#include "parser.h"
 
 #ifdef _WIN32
 
@@ -22,10 +23,10 @@ void add_history(char* unused) {}
 int main(int argc, char** argv)
 {
     while (1) {
-		char* input = readline("lispy> ");
-		add_history(input);
-		llist* tokens = scan(input);
-		// parse(tokens);
+	char* input = readline("lispy> ");
+	add_history(input);
+	llist* tokens = scan(input);
+	parse(tokens);
     }
     return 0;
 }

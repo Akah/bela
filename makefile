@@ -1,4 +1,4 @@
-# LIBS := -ledit -lm
+LIBS := -ledit -lm
 OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 # WARN := -Werror -Wall -Wextra
 TARG := repl
@@ -8,7 +8,7 @@ repl: $(OBJS)
 	$(CC) $(WARN) -o $(TARG) $(OBJS) $(LIBS)
 
 lib: $(OBJS)
-	$(CC) -shared -o repl.dll $(OBJS) $(LIBS)
+	$(CC) -shared -o $(TARG) $(OBJS) $(LIBS)
 
 clean:
 	rm -rf $(OBJS) $(TARG)
