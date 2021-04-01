@@ -172,10 +172,8 @@ void scan(char* string)
 		strcat(current_value, as_string(consume(&string)));
 	    }
 	    lexeme* lexeme = new_lexeme(LEX_INT, current_value);
-	    print_lexeme(lexeme);
 	    stack_push(&stack, lexeme);
 	    /* llist_push(list, lexeme, sizeof(void*)); // <- this push is broken; */
-	    puts("test");
 	    current_value[0] = '\0';
 	    continue;
 	}
