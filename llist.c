@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-/* llist.c
- * Generic Linked List implementation
- */
+#include "common.h"
 #include "llist.h"
 
 llist *llist_create(void *new_data)
@@ -10,7 +7,7 @@ llist *llist_create(void *new_data)
 
     llist *new_list = (llist *)malloc(sizeof (llist));
     *new_list = (struct node *)malloc(sizeof (struct node));
-    
+
     new_node = *new_list;
     new_node->data = new_data;
     new_node->next = NULL;
@@ -31,6 +28,43 @@ void llist_free(llist *list)
     free(list);
 }
 
+// Returns 0 on failure
+int llist_add_inorder(void *data, llist *list,
+                       int (*comp)(void *, void *))
+{
+    struct node *new_node;
+    struct node *curr;
+    struct node *prev = NULL;
+
+    if (list == NULL || *list == NULL) {
+        fprintf(stderr, "llist_add_inorder: list is null\n");
+        return 0;
+    }
+
+    curr = *list;
+    if (curr->data == NULL) {
+        curr->data = data;
+        return 1;
+    }
+
+    new_node = (struct node *)malloc(sizeof (struct node));
+    new_node->data = data;
+
+    // Find spot in linked list to insert new node
+    while (curr != NULL && curr->data != NULL && comp(curr->data, data) < 0) {
+        prev = curr;
+        curr = curr->next;
+    }
+    new_node->next = curr;
+
+    if (prev == NULL)
+        *list = new_node;
+    else
+        prev->next = new_node;
+
+    return 1;
+}
+
 void llist_push(llist *list, void *data)
 {
     struct node *head;
@@ -40,7 +74,7 @@ void llist_push(llist *list, void *data)
     }
 
     head = *list;
-    
+
     // Head is empty node
     if (head->data == NULL)
         head->data = data;
@@ -61,7 +95,7 @@ void *llist_pop(llist *list)
 
     if (list == NULL || head->data == NULL)
         return NULL;
-    
+
     popped_data = head->data;
     *list = head->next;
 
@@ -80,70 +114,3 @@ void llist_print(llist *list, void (*print)(void *))
     }
     putchar('\n');
 }
-=======
-#include "llist.h"
-
-llist* llist_new(void* data, size_t size)
-{
-    llist* list = malloc(sizeof(llist));
-    list->data = malloc(sizeof(size));
-    list->data = data;
-    return list;
-}
-
-bool llist_is_empty(llist* list)
-{
-    return list == NULL;
-}
-
-void llist_print(llist* list, void (*print)(llist*))
-{
-    (*print)(list);
-
-    if (llist_is_empty(list)) {
-	printf("list is empty\n");
-    }
-
-    if (list->child == NULL) {
-	return;
-    }
-
-    return llist_print(list->child, (*print));
-}
-
-llist* llist_tail(llist* list)
-{
-    if (list->child == NULL) {
-	return list;
-    }
-    return llist_tail(list->child);
-}
-
-void llist_push(llist* list, void* data, size_t size)
-{
-    /* llist* current = list; */
-    /* while(current->child != NULL) { */
-    /* 	current = current->child; */
-    /* } */
-
-    /* llist* new = llist_new(data, size); */
-    /* current->child = new; */
-    /* current->child->child = NULL; */
-}
-
-void llist_pop(llist* list)
-{
-    if (list->child == NULL) {
-	free(list);
-	return;
-    }
-
-    if (list->child->child == NULL) {
-	free(list->child);
-	list->child = NULL;
-	return;
-    }
-
-    return llist_pop(list->child);
-}
->>>>>>> added lexer
