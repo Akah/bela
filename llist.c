@@ -28,64 +28,23 @@ void llist_free(llist *list)
     free(list);
 }
 
-// Returns 0 on failure
-int llist_add_inorder(void *data, llist *list,
-                       int (*comp)(void *, void *))
-{
-    struct node *new_node;
-    struct node *curr;
-    struct node *prev = NULL;
-
-    if (list == NULL || *list == NULL) {
-        fprintf(stderr, "llist_add_inorder: list is null\n");
-        return 0;
-    }
-
-    curr = *list;
-    if (curr->data == NULL) {
-        curr->data = data;
-        return 1;
-    }
-
-    new_node = (struct node *)malloc(sizeof (struct node));
-    new_node->data = data;
-
-    // Find spot in linked list to insert new node
-    while (curr != NULL && curr->data != NULL && comp(curr->data, data) < 0) {
-        prev = curr;
-        curr = curr->next;
-    }
-    new_node->next = curr;
-
-    if (prev == NULL)
-        *list = new_node;
-    else
-        prev->next = new_node;
-
-    return 1;
-}
-
 void llist_push(llist *list, void *data)
 {
-    struct node *head;
-    struct node *new_node;
     if (list == NULL || *list == NULL) {
-        fprintf(stderr, "llist_add_inorder: list is null\n");
+        fprintf(stderr, "list is null\n");
     }
 
-    head = *list;
+    struct node *head = *list;
+    struct node *new_node = malloc(sizeof(struct node));
+    new_node->data = data;
+    new_node->next = NULL;
 
-    // Head is empty node
-    if (head->data == NULL)
-        head->data = data;
 
-    // Head is not empty, add new node to front
-    else {
-        new_node = malloc(sizeof (struct node));
-        new_node->data = data;
-        new_node->next = head;
-        *list = new_node;
+    while (head->next != NULL) {
+	head = head->next;
     }
+
+    head->next = new_node;
 }
 
 void *llist_pop(llist *list)
@@ -104,12 +63,17 @@ void *llist_pop(llist *list)
     return popped_data;
 }
 
+bool llist_is_empty(llist* list)
+{
+    struct node *head = *list;
+    return head->data == NULL && head->next == NULL;
+}
+
 void llist_print(llist *list, void (*print)(void *))
 {
     struct node *curr = *list;
     while (curr != NULL) {
         print(curr->data);
-        printf(" ");
         curr = curr->next;
     }
     putchar('\n');

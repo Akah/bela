@@ -4,14 +4,20 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#define FOREACH_LEXEME(T) \
+    T(LEX_INV) \
+    T(LEX_KEY) \
+    T(LEX_IDT) \
+    T(LEX_OPR) \
+    T(LEX_INT) \
+    T(LEX_OBR) \
+    T(LEX_CBR)
+
+#define GENERATE_ENUM(ENUM) ENUM ,
+#define GENERATE_STRING(STRING) #STRING ,
+
 typedef enum {
-    LEX_INV, // INVALID
-    LEX_KEY, // KEYWORD
-    LEX_IDT, // IDENTIFIER
-    LEX_OPR, // OPERATOR
-    LEX_INT, // INTEGER
-    LEX_OBR, // OPEN BRACKET
-    LEX_CBR, // CLOSE BRACKET
+    FOREACH_LEXEME(GENERATE_ENUM)
 } lexeme_t;
 
 typedef struct {
@@ -29,12 +35,14 @@ char peek(char* string);
 
 void print_lexeme(void* pointer);
 
-char peek(char* string);
-
 char consume(char** string);
 
 bool is_digit(char c);
 
 llist* scan(char* string);
+
+static const char* lexeme_t_string[] = {
+    FOREACH_LEXEME(GENERATE_STRING)
+};
 
 #endif

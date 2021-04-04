@@ -87,11 +87,8 @@ llist* scan(char* string)
             continue;
         }
 
-	    lexeme* lexeme = new_lexeme(LEX_INV, as_string(consume(&string)));
+	lexeme* lexeme = new_lexeme(LEX_INV, as_string(consume(&string)));
         llist_push(list, lexeme);
     }
-
-    llist_print(list, print_lexeme);
-
     return list;
 }

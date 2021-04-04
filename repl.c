@@ -1,6 +1,6 @@
 #include "common.h"
-#include "lexer.h"
 #include "llist.h"
+#include "lexer.h"
 #include "parser.h"
 
 #ifdef _WIN32
@@ -27,6 +27,12 @@ int main(int argc, char** argv)
 	add_history(input);
 	llist* tokens = scan(input);
 	parse(tokens);
+
+	llist* lexemes = scan(input);
+
+	parse(lexemes);
+
+	llist_free(lexemes);
     }
     return 0;
 }
