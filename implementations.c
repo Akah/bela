@@ -1,13 +1,23 @@
+// TODO: convert operator functions to use 64 bit ints
+// TODO: compatability for 32 bit systems (ARMv7)
+
 #include "implementations.h"
 
 uint32_t add(llist* args)
 {
     struct node* node = *args;
-    int total = *(int *)node->data;
-    while (node->next != NULL) {
-	total += *(int *)node->data;
+    node = node->next; // skip firsdst null element
+    int total = 0;
+    while (node->data != NULL) {
+	total += atoi(node->data);
+	// TODO: fix this shit in the while loop condition
+	if (node->next == NULL)
+	    break;
+
 	node = node->next;
     }
+
+    printf("-> %d\n", total);
     return total;
 }
 

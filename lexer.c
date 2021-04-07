@@ -5,8 +5,13 @@ void print_lexeme(void* lex)
 {
     lexeme* casted = (lexeme *)lex;
     if (casted)
-	    printf("(%d, %s)\n", casted->type, casted->value);
+	printf("(%d, %s)\n", casted->type, casted->value);
 
+}
+
+char peek(char* string)
+{
+    return *string;
 }
 
 char consume(char** string)
@@ -73,13 +78,13 @@ llist* scan(char* string)
             continue;
         }
         if (is_operator(peek(string))) {
-            lexeme* lexeme = new_lexeme(LEX_INT, as_string(consume(&string)));
+            lexeme* lexeme = new_lexeme(LEX_OPR, as_string(consume(&string)));
             llist_push(list, lexeme);
             continue;
         }
         if (is_digit(peek(string))) {
             while(is_digit(peek(string))) {
-            strcat(current_value, as_string(consume(&string)));
+		strcat(current_value, as_string(consume(&string)));
             }
             lexeme* lexeme = new_lexeme(LEX_INT, current_value);
             llist_push(list, lexeme);

@@ -12,7 +12,7 @@ typedef enum {
     MUL,
 } operator;
 
-typedef void (*fn)();
+typedef void *(*fn)();
 
 static const fn function[5] = {
     (fn)add,
@@ -26,6 +26,7 @@ typedef struct {
     llist* exprs;
 } expr;
 
+void free_expr(expr* expr);
 
 expr* parse(llist* lexemes);
 

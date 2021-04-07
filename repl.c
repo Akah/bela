@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "parser.h"
 
+// TODO: move windows readline to seperate file
 #ifdef _WIN32
 
 static char buffer[2048];
@@ -26,13 +27,17 @@ int main(int argc, char** argv)
 	char* input = readline("lispy> ");
 	add_history(input);
 	llist* tokens = scan(input);
-	parse(tokens);
 
-	llist* lexemes = scan(input);
+	expr* expr = parse(tokens);
 
-	parse(lexemes);
+	// causes warning because type was void* despite having correct value...
+	// TODO: instead of returning void* return a struct containing the value and it's expected type
+	uint32_t a = (int)expr->fn(expr->exprs);
 
-	llist_free(lexemes);
+	printf("returned result %d\n", a);
+
+	llist_free(tokens);
+	free_expr(expr);
     }
     return 0;
 }
