@@ -30,19 +30,13 @@ int main(int argc, char** argv)
 
 	expr* expr = parse(tokens);
 
-	// causes warning because type was void* despite having correct value...
-	// TODO: instead of returning void* return a struct containing the value and it's expected type
-
-	//ret_val* value = (ret_val*)(expr->fn(expr->exprs));
-
+	// evaluation
 	if (expr->fn){
-	    ret_val* val = (ret_val*)expr->fn(expr->exprs);
+	    return_v* val = (return_v*)expr->fn(expr->exprs);
 	    printf("--> %d\n", *(int *)(val->value));
 	} else {
 	    puts("function pointer was null");
 	}
-
-	// printf("returned result %d\n", *(int*)value->value);
 
 	llist_free(tokens);
 	free_expr(expr);

@@ -14,14 +14,21 @@ typedef enum {
 typedef struct {
     return_t type;
     void* value;
-} ret_val;
+} return_v;
 
-ret_val* add(llist* args);
+//OPTIMISATIONS:
+//  replace with inline?
+//  replace with bitwise operations
 
-uint32_t sub(llist* args);
+return_v* calc(char op, llist* args);
 
-uint32_t dvd(llist* args);
+return_v* add(llist* args);
 
-uint32_t mul(llist* args);
+return_v* sub(llist* args);
+
+return_v* dvd(llist* args);
+
+return_v* mul(llist* args);
+
 
 #endif

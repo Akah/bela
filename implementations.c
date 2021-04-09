@@ -1,15 +1,32 @@
 // TODO: convert operator functions to use 64 bit ints
 // TODO: compatability for 32 bit systems (ARMv7)
+// TODO: create function to malloc return value struct
+// TODO: free function for return value struct
 
 #include "implementations.h"
 
-ret_val* add(llist* args)
+return_v* calc(char op, llist* args)
 {
     struct node* node = *args;
     node = node->next; // skip firsdst null element
     int total = 0;
     while (node->data != NULL) {
-	total += atoi(node->data);
+
+	switch(op) {
+	case '+':
+	    total += atoi(node->data);
+	    break;
+	case '-':
+	    total -= atoi(node->data);
+	    break;
+	case '/':
+	    total /= atoi(node->data);
+	    break;
+	case '*':
+	    total *= atoi(node->data);
+	    break;
+	}
+
 	// TODO: fix this shit in the while loop condition
 	if (node->next == NULL)
 	    break;
@@ -22,44 +39,30 @@ ret_val* add(llist* args)
     uint32_t* val_p = malloc(sizeof(uint32_t*));
     memcpy(val_p, &total, sizeof(uint32_t));
 
-    ret_val* ret = malloc(sizeof(ret_val));
+    return_v* ret = malloc(sizeof(return_v));
     ret->type = INT;
     ret->value = val_p;
 
     return ret;
-
-    // will need to free return value struct and contained integer after use...
 }
 
-uint32_t sub(llist* args)
+return_v* add(llist* args)
 {
-    struct node* node = *args;
-    int total = *(int *)node->data;
-    while (node->next != NULL) {
-	total -= *(int *)node->data;
-	node = node->next;
-    }
-    return total;
+    return calc('+', args);
 }
 
-uint32_t dvd(llist* args)
+return_v* sub(llist* args)
 {
-    struct node* node = *args;
-    int total = *(int *)node->data;
-    while (node->next != NULL) {
-	total /= *(int *)node->data;
-	node = node->next;
-    }
-    return total;
+    return calc('-', args);
 }
 
-uint32_t mul(llist* args)
+
+return_v* dvd(llist* args)
 {
-    struct node* node = *args;
-    int total = *(int *)node->data;
-    while (node->next != NULL) {
-	total *= *(int *)node->data;
-	node = node->next;
-    }
-    return total;
+    return calc('/', args);
+}
+
+return_v* mul(llist* args)
+{
+    return calc('*', args);
 }
