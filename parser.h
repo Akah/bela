@@ -12,7 +12,7 @@ typedef enum {
     MUL,
 } operator;
 
-;;typedef ret_val* (*fn)(llist*);
+typedef ret_val* (*fn)(llist*);
 
 static const fn function[5] = {
     (fn)add,

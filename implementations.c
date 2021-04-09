@@ -5,7 +5,6 @@
 
 ret_val* add(llist* args)
 {
-    puts("gets here");
     struct node* node = *args;
     node = node->next; // skip firsdst null element
     int total = 0;

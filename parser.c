@@ -69,7 +69,7 @@ expr* parse(llist* lexemes)
 		printf("invalid input: %s", lexeme->value);
 		break;
 	    case LEX_OPR:
-		expr->fn = function[operator_from_string(lexeme->value)];
+		expr->fn = add;//function[operator_from_string(lexeme->value)];
 		break;
 	    case LEX_INT:; // ; is actually required here
 		llist_push(expr->exprs, lexeme->value);

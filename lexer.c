@@ -39,7 +39,8 @@ bool is_operator(char c)
 }
 
 char* as_string(char c){
-    return (char[2]){c, '\0'};
+    char* cout = (char[2]){c, '\0'};
+    return cout;
 }
 
 lexeme* new_lexeme(lexeme_t type, char* value)
@@ -95,5 +96,6 @@ llist* scan(char* string)
 	lexeme* lexeme = new_lexeme(LEX_INV, as_string(consume(&string)));
         llist_push(list, lexeme);
     }
+
     return list;
 }

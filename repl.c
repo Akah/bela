@@ -33,14 +33,14 @@ int main(int argc, char** argv)
 	// causes warning because type was void* despite having correct value...
 	// TODO: instead of returning void* return a struct containing the value and it's expected type
 
-	puts("of course");
 	//ret_val* value = (ret_val*)(expr->fn(expr->exprs));
 
 	if (expr->fn){
-	    expr->fn(expr->exprs);
+	    ret_val* val = (ret_val*)expr->fn(expr->exprs);
+	    printf("--> %d\n", *(int *)(val->value));
+	} else {
+	    puts("function pointer was null");
 	}
-
-	puts("its here");
 
 	// printf("returned result %d\n", *(int*)value->value);
 
