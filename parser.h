@@ -12,13 +12,10 @@ typedef enum {
     MUL,
 } operator;
 
-typedef void *(*fn)();
+;;typedef ret_val* (*fn)(llist*);
 
 static const fn function[5] = {
     (fn)add,
-    (fn)sub,
-    (fn)div,
-    (fn)mul
 };
 
 typedef struct {

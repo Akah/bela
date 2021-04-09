@@ -32,9 +32,17 @@ int main(int argc, char** argv)
 
 	// causes warning because type was void* despite having correct value...
 	// TODO: instead of returning void* return a struct containing the value and it's expected type
-	uint32_t a = (int)expr->fn(expr->exprs);
 
-	printf("returned result %d\n", a);
+	puts("of course");
+	//ret_val* value = (ret_val*)(expr->fn(expr->exprs));
+
+	if (expr->fn){
+	    expr->fn(expr->exprs);
+	}
+
+	puts("its here");
+
+	// printf("returned result %d\n", *(int*)value->value);
 
 	llist_free(tokens);
 	free_expr(expr);

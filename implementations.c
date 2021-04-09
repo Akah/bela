@@ -3,8 +3,9 @@
 
 #include "implementations.h"
 
-uint32_t add(llist* args)
+ret_val* add(llist* args)
 {
+    puts("gets here");
     struct node* node = *args;
     node = node->next; // skip firsdst null element
     int total = 0;
@@ -18,7 +19,17 @@ uint32_t add(llist* args)
     }
 
     printf("-> %d\n", total);
-    return total;
+
+    uint32_t* val_p = malloc(sizeof(uint32_t*));
+    memcpy(val_p, &total, sizeof(uint32_t));
+
+    ret_val* ret = malloc(sizeof(ret_val));
+    ret->type = INT;
+    ret->value = val_p;
+
+    return ret;
+
+    // will need to free return value struct and contained integer after use...
 }
 
 uint32_t sub(llist* args)
