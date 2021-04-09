@@ -12,30 +12,27 @@ return_v* calc(char op, llist* args)
     int total = atoi(node->data);
     node = node->next;
     while (node->data != NULL) {
+		switch(op) {
+			case '+':
+				total += atoi(node->data);
+				break;
+			case '-':
+				total -= atoi(node->data);
+				break;
+			case '/':
+				total /= atoi(node->data);
+				break;
+			case '*':
+				total *= atoi(node->data);
+				break;
+		}
 
-	switch(op) {
-	case '+':
-	    total += atoi(node->data);
-	    break;
-	case '-':
-	    total -= atoi(node->data);
-	    break;
-	case '/':
-	    total /= atoi(node->data);
-	    break;
-	case '*':
-	    total *= atoi(node->data);
-	    break;
-	}
+		// TODO: fix this shit in the while loop condition
+		if (node->next == NULL)
+			break;
 
-	// TODO: fix this shit in the while loop condition
-	if (node->next == NULL)
-	    break;
-
-	node = node->next;
+		node = node->next;
     }
-
-    printf("-> %d\n", total);
 
     uint32_t* val_p = malloc(sizeof(uint32_t*));
     memcpy(val_p, &total, sizeof(uint32_t));
@@ -56,7 +53,6 @@ return_v* sub(llist* args)
 {
     return calc('-', args);
 }
-
 
 return_v* dvd(llist* args)
 {

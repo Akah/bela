@@ -29,10 +29,16 @@
 
 int operator_from_string(char* operator)
 {
-    if (strcmp(operator, "+") == 0) return 0;
-    if (strcmp(operator, "-") == 0) return 1;
-    if (strcmp(operator, "/") == 0) return 2;
-    if (strcmp(operator, "*") == 0) return 3;
+	switch(*operator) {
+		case '+':
+			return 0;
+		case '-':
+			return 1;
+		case '/':
+			return 2;
+		case '*':
+			return 3;
+	}
     return -1;
 }
 
@@ -60,36 +66,32 @@ expr* parse(llist* lexemes)
     struct node* curr_lexeme_p = *lexemes;
 
     while (curr_lexeme_p != NULL) {
-	// first pointer position has null data/type but has a child
-	// TODO: decided whether to delete or ignore first pointer in list.
-	lexeme* lexeme = curr_lexeme_p->data;
-	if (lexeme) {
-	    switch (lexeme->type) {
-	    case LEX_INV:
-		printf("invalid input: %s\n", lexeme->value);
-		break;
-	    case LEX_OPR:;
-		char* c = lexeme->value;
-		int operator = operator_from_string(lexeme->value);
-
-		printf("\n string value: %s\n", c);
-		printf(" operator is:  %d\n", operator);
-
-		expr->fn = function[operator_from_string(lexeme->value)];
-		break;
-	    case LEX_INT:; // ; is actually required here
-		llist_push(expr->exprs, lexeme->value);
-		break;
-	    case LEX_OBR:
-	    case LEX_CBR:
-	    case LEX_KEY:
-	    case LEX_IDT:
-	    default:
-		printf("no implementation for lexeme type: %s\n",
-		       lexeme_t_string[lexeme->type]);
-	    }
-	}
-	curr_lexeme_p = curr_lexeme_p->next;
+		// first pointer position has null data/type but has a child
+		// TODO: decided whether to delete or ignore first pointer in list.
+		lexeme* lexeme = curr_lexeme_p->data;
+		if (lexeme) {
+			switch (lexeme->type) {
+				case LEX_INV:
+					printf("invalid input: %s\n", lexeme->value);
+					break;
+				case LEX_OPR:;
+					char* c = lexeme->value;
+					int operator = operator_from_string(lexeme->value);
+					expr->fn = function[operator_from_string(lexeme->value)];
+					break;
+				case LEX_INT:; // ; is actually required here
+					llist_push(expr->exprs, lexeme->value);
+					break;
+				case LEX_OBR:
+				case LEX_CBR:
+				case LEX_KEY:
+				case LEX_IDT:
+				default:
+					printf("no implementation for lexeme type: %s\n",
+					lexeme_t_string[lexeme->type]);
+			}
+		}
+		curr_lexeme_p = curr_lexeme_p->next;
     }
 
     return expr;

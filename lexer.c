@@ -5,7 +5,7 @@ void print_lexeme(void* lex)
 {
     lexeme* casted = (lexeme *)lex;
     if (casted)
-	printf("(%d, %s)\n", casted->type, casted->value);
+	    printf("(%d, %s)\n", casted->type, casted->value);
 
 }
 
@@ -19,17 +19,20 @@ char consume(char** string)
     return *(*string)++;
 }
 
+// OPTIMISATION: replace with macro
 bool is_digit(char c)
 {
     return c >= '0' && c <= '9';
 }
 
+// OPTIMISATION: replace with macro
 bool is_char(char c)
 {
     return (c >= 'A' && c <= 'Z')
 	|| (c >= 'a' && c >= 'z');
 }
 
+// OPTIMISATION: replace with macro
 bool is_operator(char c)
 {
     return c == '+'
@@ -85,7 +88,7 @@ llist* scan(char* string)
         }
         if (is_digit(peek(string))) {
             while(is_digit(peek(string))) {
-		strcat(current_value, as_string(consume(&string)));
+		        strcat(current_value, as_string(consume(&string)));
             }
             lexeme* lexeme = new_lexeme(LEX_INT, current_value);
             llist_push(list, lexeme);

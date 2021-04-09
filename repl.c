@@ -29,6 +29,8 @@ int main(int argc, char** argv)
 	char* input = readline("lispy> ");
 	add_history(input);
 	llist* tokens = scan(input);
+	if (tokens == NULL)
+		break;
 
 	expr* expr = parse(tokens);
 
