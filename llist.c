@@ -31,7 +31,7 @@ void llist_free(llist *list)
 void llist_push(llist *list, void *data)
 {
     if (list == NULL || *list == NULL) {
-        fprintf(stderr, "error: pushing to null list\n");
+        printf("error: pushing to null list\n");
     }
 
     struct node *head = *list;

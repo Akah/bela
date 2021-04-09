@@ -9,7 +9,8 @@ return_v* calc(char op, llist* args)
 {
     struct node* node = *args;
     node = node->next; // skip firsdst null element
-    int total = 0;
+    int total = atoi(node->data);
+    node = node->next;
     while (node->data != NULL) {
 
 	switch(op) {

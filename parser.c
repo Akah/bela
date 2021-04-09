@@ -66,10 +66,16 @@ expr* parse(llist* lexemes)
 	if (lexeme) {
 	    switch (lexeme->type) {
 	    case LEX_INV:
-		printf("invalid input: %s", lexeme->value);
+		printf("invalid input: %s\n", lexeme->value);
 		break;
-	    case LEX_OPR:
-		expr->fn = add;//function[operator_from_string(lexeme->value)];
+	    case LEX_OPR:;
+		char* c = lexeme->value;
+		int operator = operator_from_string(lexeme->value);
+
+		printf("\n string value: %s\n", c);
+		printf(" operator is:  %d\n", operator);
+
+		expr->fn = function[operator_from_string(lexeme->value)];
 		break;
 	    case LEX_INT:; // ; is actually required here
 		llist_push(expr->exprs, lexeme->value);

@@ -1,6 +1,6 @@
 LIBS := -ledit -lm
 OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
-# WARN := -Werror -Wall -Wextra
+WARN := -Werror -Wall -Wextra
 TARG := repl
 CC := gcc
 

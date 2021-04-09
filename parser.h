@@ -5,17 +5,43 @@
 #include "llist.h"
 #include "implementations.h"
 
+//TODO: generate enum and function array from macro
 typedef enum {
+// arithmetic
     ADD,
     SUB,
     DIV,
     MUL,
+    MOD,
+    EXP,
+// incremenation
+    INC,
+    DEC,
+// binary
+    BAND,
+    BNOT,
+    BXOR,
+    BOR,
+    BLS,
+    BRS,
+// relational
+    EQL,
+    NEQ,
+    GRT,
+    LST,
+// logical
+    AND,
+    OR,
+    NOT,
 } operator;
 
 typedef return_v* (*fn)(llist*);
 
 static const fn function[5] = {
     (fn)add,
+    (fn)sub,
+    (fn)dvd,
+    (fn)mul
 };
 
 typedef struct {
