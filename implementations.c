@@ -4,34 +4,38 @@
 // TODO: free function for return value struct
 
 #include "implementations.h"
+#include "parser.h"
 
+// NOTE: list of arguements should be strings
 return_v* calc(char op, llist* args)
 {
+    puts("args:");
+    llist_print(args, llist_print_int);
     struct node* node = *args;
     node = node->next; // skip firsdst null element
     int total = atoi(node->data);
     node = node->next;
     while (node->data != NULL) {
-		switch(op) {
-			case '+':
-				total += atoi(node->data);
-				break;
-			case '-':
-				total -= atoi(node->data);
-				break;
-			case '/':
-				total /= atoi(node->data);
-				break;
-			case '*':
-				total *= atoi(node->data);
-				break;
-		}
+	switch(op) {
+	case '+':
+	    total += atoi(node->data);
+	    break;
+	case '-':
+	    total -= atoi(node->data);
+	    break;
+	case '/':
+	    total /= atoi(node->data);
+	    break;
+	case '*':
+	    total *= atoi(node->data);
+	    break;
+	}
 
-		// TODO: fix this shit in the while loop condition
-		if (node->next == NULL)
-			break;
+	// TODO: fix this shit in the while loop condition
+	if (node->next == NULL)
+	    break;
 
-		node = node->next;
+	node = node->next;
     }
 
     uint32_t* val_p = malloc(sizeof(uint32_t*));

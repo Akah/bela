@@ -19,7 +19,6 @@ $(info Macros defined: $(D))
 endif
 
 repl: $(OBJS)
-	@echo OS target: $(OS)
 ifeq ($(OS),windows)
 	@echo Macros defined: $(D)
 endif

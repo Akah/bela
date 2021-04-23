@@ -45,11 +45,28 @@ static const fn function[5] = {
 };
 
 typedef struct {
-    fn fn; // <- replace with searching existing data of functions
-    llist* exprs;
+    fn fn;
+    llist* args;
+} fn_expr;
+
+typedef enum {
+    FUNC,
+    LIST,
+    ATOM
+} expr_t;
+
+typedef struct{
+    expr_t type;
+    union {
+	fn_expr* fn_expr;
+	llist* list;
+	void* atom;
+    };
 } expr;
 
 void free_expr(expr* expr);
+
+void print_expr(expr* expr);
 
 expr* parse(llist* lexemes);
 

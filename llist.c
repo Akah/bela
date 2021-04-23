@@ -78,3 +78,11 @@ void llist_print(llist *list, void (*print)(void *))
     }
     putchar('\n');
 }
+
+void llist_print_int(void* pointer)
+{
+    if (pointer == NULL)
+	return;
+    char* num = pointer;
+    printf("%d\n", atoi(num));
+}
