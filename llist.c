@@ -47,7 +47,31 @@ void llist_push(llist *list, void *data)
     head->next = new_node;
 }
 
-void *llist_pop(llist *list)
+void* llist_pop(llist *list)
+{
+    // void* popped;
+    struct node *head = *list;
+
+    while (head->next->next != NULL) {
+	head = head->next;
+    }
+
+    free(head->next);
+    head->next = NULL;
+
+    return NULL;
+}
+
+void* llist_last(llist* list)
+{
+    struct node *head = *list;
+    while (head->next != NULL) {
+	head = head->next;
+    }
+    return head;
+}
+
+void *llist_shift(llist *list)
 {
     void *popped_data;
     struct node *head = *list;
@@ -85,4 +109,18 @@ void llist_print_int(void* pointer)
 	return;
     char* num = pointer;
     printf("%d\n", atoi(num));
+}
+
+void print_string(void* pointer)
+{
+    if (pointer == NULL)
+	return;
+    printf("%s\n", (char*) pointer);
+}
+
+void print_pointer(void* pointer)
+{
+    if (pointer == NULL)
+	return;
+    printf("%p\n", pointer);
 }

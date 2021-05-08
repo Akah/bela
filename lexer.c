@@ -5,7 +5,7 @@ void print_lexeme(void* lex)
 {
     lexeme* casted = (lexeme *)lex;
     if (casted)
-	    printf("(%d, %s)\n", casted->type, casted->value);
+	    printf("(%s, %s)\n", lexeme_t_string[casted->type], casted->value);
 
 }
 

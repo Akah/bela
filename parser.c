@@ -1,4 +1,5 @@
 #include "common.h"
+#include "llist.h"
 #include "parser.h"
 #include "lexer.h"
 #include "implementations.h"
@@ -42,53 +43,108 @@ int operator_from_string(char* operator)
     return -1;
 }
 
-/* void free_expr(expr* expr) */
-/* { */
-/*     llist_free(expr->exprs); */
-/*     free(expr); */
-/* } */
-
-expr* new_expr(expr_t type, void* data)
+ast* build_tree(ast_tag tag, char* contents)
 {
-    expr* expr = malloc(sizeof(expr));
-    if (type == LIST) {
-	expr->list = llist_create(NULL);
+    ast* tree = malloc(sizeof(ast));
+    tree->tag = tag;
+    tree->contents = contents;
+    if (tag == ast_expr) {
+	tree->children = llist_create(NULL);
     }
-
-    if (type == LIST) {
-	expr->fn_expr->args = llist_create(NULL);
-    }
-
-    if (type == ATOM) {
-	expr->atom = data;
-    }
-    return expr;
+    return tree;
 }
 
-expr* parse(llist* lexemes)
+ast* parse(llist* lexemes)
 {
+    puts("printing via parse:");
     llist_print(lexemes, print_lexeme);
+
+    struct node* lexeme_list = *lexemes;
+    // ignore first empty node
+    lexeme_list = lexeme_list->next;
+
+    ast* head = build_tree(ast_expr, NULL);
+    /* ast* curr = head; */
+
+    ast* curr;
+    llist* expr_stack = llist_create(head);
+
+    while (lexeme_list) {
+
+	/* llist_print(expr_stack, print_pointer); */
+
+	struct node* last = llist_last(expr_stack);
+
+	curr = (ast*)last->data;
+
+	lexeme* lexeme = lexeme_list->data;
+	ast* branch;
+
+	printf("curr: %p\n", curr);
+
+	switch (lexeme->type)
+	{
+	case LEX_INT:;
+	    branch = build_tree(ast_num, lexeme->value);
+	    llist_push(curr->children, branch);
+	    break;
+	case LEX_OPR:;
+	    branch = build_tree(ast_fn, lexeme->value);
+	    llist_push(curr->children, branch);
+	    break;
+	case LEX_OBR:;
+	    branch = build_tree(ast_expr, NULL);
+	    llist_push(curr->children, branch);
+	    llist_push(expr_stack, branch);
+	    /* curr = branch; */
+	    break;
+	case LEX_CBR:;
+	    llist_print(expr_stack, print_pointer);
+	    llist_pop(expr_stack);
+	    puts("popping expression stack");
+
+	    struct node* last = llist_last(expr_stack);
+
+	    curr = (ast*)last->data;
+
+	    printf("new_crr: %p\n", curr);
+
+	    break;
+	case LEX_KEY:;
+	    break;
+	case LEX_IDT:;
+	    break;
+	case LEX_INV:;
+	    break;
+	default:
+	    break;
+	}
+
+	lexeme_list = lexeme_list->next;
+    }
+
+    puts("built ast");
+
+    print_ast(head, 0);
+
     return NULL;
 }
 
-/* void print_expr(expr* expr) */
-/* { */
-/*     int indent = 0; */
-/*     //printf("%*s%s", expr->fn) // TODO: expr->fn as  struct containing function pointer and function name */
-/*     printf("%*sexpr:>\n", indent, ""); */
-/*     indent += 4; */
-
-/*     llist* cur_expr = expr->exprs; */
-/*     struct node* a = *cur_expr; */
-
-
-
-
-/*     while (cur_expr) { */
-/* 	printf("%*stype:%s:%s", indent, "", b->type); */
-/*     } */
-
-/* } */
+void print_ast(ast* ast, int indent)
+{
+    if (ast->tag == ast_expr) {
+	printf("%*sexpr:>\n", indent, "");
+	struct node* children = *ast->children;
+	children = children->next;
+	indent += 2;
+	while (children) {
+	    print_ast(children->data, indent);
+	    children = children->next;
+	}
+    } else {
+	printf("%*s%d:%s\n", indent, "", ast->tag, ast->contents);
+    }
+}
 
 /* expr* parse(llist* lexemes) */
 /* { */

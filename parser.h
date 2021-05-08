@@ -44,30 +44,32 @@ static const fn function[5] = {
     (fn)mul
 };
 
-typedef struct {
-    fn fn;
-    llist* args;
-} fn_expr;
-
 typedef enum {
-    FUNC,
-    LIST,
-    ATOM
-} expr_t;
+    ast_list,
+    ast_num,
+    ast_expr,
+    ast_fn,
+} ast_tag;
 
-typedef struct{
-    expr_t type;
-    union {
-	fn_expr* fn_expr;
-	llist* list;
-	void* atom;
-    };
-} expr;
+typedef struct ast_t{
+    ast_tag tag;
+    char* contents;
+    int children_num;
+    // struct ast_t** children;
+    llist* children;
+} ast;
 
-void free_expr(expr* expr);
 
-void print_expr(expr* expr);
+void print_expr();
 
-expr* parse(llist* lexemes);
+void print_fn_expr();
+
+void print_atom_expr();
+
+void free_expr(ast* expr);
+
+void print_ast(ast* expr, int indent);
+
+ast* parse(llist* lexemes);
 
 #endif

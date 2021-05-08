@@ -58,7 +58,24 @@ int main(int argc, char** argv)
 	if (tokens == NULL)
 		break;
 
-	expr* expr = parse(tokens);
+	parse(tokens);
+
+	/* char* a = "a"; */
+	/* char* b = "b"; */
+	/* char* c = "c"; */
+
+	/* llist* list = llist_create(a); */
+
+	/* llist_push(list, b); */
+	/* llist_push(list, c); */
+
+	/* llist_pop(list); */
+
+	/* llist_print(list, print_string); */
+
+	/* struct node* last = llist_last(list); */
+
+	/* printf("%s\n", (char*)last->data); */
 
 	// evaluation
     //     if (expr->fn){
