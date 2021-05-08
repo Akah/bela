@@ -56,31 +56,21 @@ ast* build_tree(ast_tag tag, char* contents)
 
 ast* parse(llist* lexemes)
 {
-    puts("printing via parse:");
-    llist_print(lexemes, print_lexeme);
-
     struct node* lexeme_list = *lexemes;
     // ignore first empty node
     lexeme_list = lexeme_list->next;
 
     ast* head = build_tree(ast_expr, NULL);
-    /* ast* curr = head; */
-
     ast* curr;
     llist* expr_stack = llist_create(head);
 
     while (lexeme_list) {
-
-	/* llist_print(expr_stack, print_pointer); */
-
 	struct node* last = llist_last(expr_stack);
 
 	curr = (ast*)last->data;
 
 	lexeme* lexeme = lexeme_list->data;
 	ast* branch;
-
-	printf("curr: %p\n", curr);
 
 	switch (lexeme->type)
 	{
@@ -96,19 +86,9 @@ ast* parse(llist* lexemes)
 	    branch = build_tree(ast_expr, NULL);
 	    llist_push(curr->children, branch);
 	    llist_push(expr_stack, branch);
-	    /* curr = branch; */
 	    break;
 	case LEX_CBR:;
-	    llist_print(expr_stack, print_pointer);
 	    llist_pop(expr_stack);
-	    puts("popping expression stack");
-
-	    struct node* last = llist_last(expr_stack);
-
-	    curr = (ast*)last->data;
-
-	    printf("new_crr: %p\n", curr);
-
 	    break;
 	case LEX_KEY:;
 	    break;
@@ -123,11 +103,7 @@ ast* parse(llist* lexemes)
 	lexeme_list = lexeme_list->next;
     }
 
-    puts("built ast");
-
-    print_ast(head, 0);
-
-    return NULL;
+    return head;
 }
 
 void print_ast(ast* ast, int indent)

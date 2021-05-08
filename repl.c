@@ -54,28 +54,16 @@ int main(int argc, char** argv)
     while (1) {
 	char* input = readline("repl> ");
 	add_history(input);
+
 	llist* tokens = scan(input);
 	if (tokens == NULL)
-		break;
+	    break;
+	llist_print(tokens, print_lexeme);
 
-	parse(tokens);
-
-	/* char* a = "a"; */
-	/* char* b = "b"; */
-	/* char* c = "c"; */
-
-	/* llist* list = llist_create(a); */
-
-	/* llist_push(list, b); */
-	/* llist_push(list, c); */
-
-	/* llist_pop(list); */
-
-	/* llist_print(list, print_string); */
-
-	/* struct node* last = llist_last(list); */
-
-	/* printf("%s\n", (char*)last->data); */
+	ast* ast = parse(tokens);
+	if (ast == NULL)
+	    break;
+	print_ast(ast, 0);
 
 	// evaluation
     //     if (expr->fn){
