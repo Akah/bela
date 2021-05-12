@@ -5,35 +5,28 @@
 #include "llist.h"
 #include "implementations.h"
 
-//TODO: generate enum and function array from macro
+#define FOREACH_AST_TAG(T) \
+    T(AST_LIST) \
+    T(AST_NUM) \
+    T(AST_EXPR) \
+    T(AST_FN) \
+
 typedef enum {
-// arithmetic
-    ADD,
-    SUB,
-    DIV,
-    MUL,
-    MOD,
-    EXP,
-// incremenation
-    INC,
-    DEC,
-// binary
-    BAND,
-    BNOT,
-    BXOR,
-    BOR,
-    BLS,
-    BRS,
-// relational
-    EQL,
-    NEQ,
-    GRT,
-    LST,
-// logical
-    AND,
-    OR,
-    NOT,
-} operator;
+    FOREACH_AST_TAG(GENERATE_ENUM)
+} ast_tag;
+
+static const char* ast_tag_string[] = {
+    FOREACH_AST_TAG(GENERATE_STRING)
+};
+
+typedef struct ast_t{
+    ast_tag tag;
+    char* contents;
+    int children_num;
+    // struct ast_t** children;
+    llist* children;
+    int position[2];
+} ast;
 
 typedef return_v* (*fn)(llist*);
 
@@ -43,22 +36,6 @@ static const fn function[5] = {
     (fn)dvd,
     (fn)mul
 };
-
-typedef enum {
-    ast_list,
-    ast_num,
-    ast_expr,
-    ast_fn,
-} ast_tag;
-
-typedef struct ast_t{
-    ast_tag tag;
-    char* contents;
-    int children_num;
-    // struct ast_t** children;
-    llist* children;
-} ast;
-
 
 void print_expr();
 

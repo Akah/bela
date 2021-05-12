@@ -30,11 +30,6 @@ bool test_maths(fn fn, int result, char* a, char* b, char* c)
 
     bool passed = true;
 
-    printf("type: %d\n", v->type);
-    printf("value:\n");
-    printf("  is:   %d\n", *(int*)v->value);
-    printf("  want: %d\n", result);
-
     if (v->type  != INT) passed = false;
     if (*(int*)v->value != result) passed = false;
 
@@ -46,6 +41,7 @@ bool test_maths(fn fn, int result, char* a, char* b, char* c)
     return passed;
 }
 
+/* ADDITION */
 
 bool add_two_positive_ints()
 {
@@ -67,14 +63,50 @@ bool add_multiple_ints()
     return test_maths(&add, 6, "1", "2", "3");
 }
 
+/* SUBTRACTION */
 
-/* bool subtract_two_positive_ints(){} */
+bool subtract_two_positive_ints()
+{
+    return test_maths(&sub, 1, "2", "1", "0");
+}
 
-/* bool subtract_two_negative_ints(){} */
+bool subtract_two_negative_ints()
+{
+    return test_maths(&sub, 1, "-1", "-2", "0");
+}
 
-/* bool subtract_negative_and_positive_ints(){} */
+bool subtract_negative_and_positive_ints()
+{
+    return test_maths(&sub, -3, "-1", "2", "0");
+}
 
-/* bool subtract_multiple_ints(){} */
+bool subtract_multiple_ints()
+{
+    return test_maths(&sub, 0, "3", "2", "1");
+}
+
+
+/* MULTIPLICATION */
+
+bool multiply_two_positive_ints()
+{
+    return test_maths(&mul, 4, "2", "2", "1");
+}
+
+bool multiply_two_negative_ints()
+{
+    return test_maths(&mul, 4, "-2", "-2", "1");
+}
+
+bool multiply_negative_and_positive_ints()
+{
+    return test_maths(&mul, -4, "-2", "2", "1");
+}
+
+bool multiply_multiple_ints()
+{
+    return test_maths(&mul, 12, "3", "2", "2");
+}
 
 
 /* bool divide_two_positive_ints(){} */
@@ -85,30 +117,24 @@ bool add_multiple_ints()
 
 /* bool divide_multiple_ints(){} */
 
-
-/* bool multiply_two_positive_ints(){} */
-
-/* bool multiply_two_negative_ints(){} */
-
-/* bool multiply_negative_and_positive_ints(){} */
-
-/* bool multiply_multiple_ints(){} */
-
-
-
 void run_tests()
 {
-    /* llist* list = llist_create("1"); */
-    /* llist_push(list, "1"); */
-
-    /* llist_print(list, llist_print_int); */
-
-    /* add(list); */
-
-    /* __check(add_two_positive_ints); */
+    __check(add_two_positive_ints);
     __check(add_two_negative_ints);
     __check(add_negative_and_positive_ints);
     __check(add_multiple_ints);
+
+    __check(subtract_two_positive_ints);
+    __check(subtract_two_negative_ints);
+    __check(subtract_negative_and_positive_ints);
+    __check(subtract_multiple_ints);
+
+    __check(multiply_two_positive_ints);
+    __check(multiply_two_negative_ints);
+    __check(multiply_negative_and_positive_ints);
+    __check(multiply_multiple_ints);
+
+    result();
 
     // implementations
     // llist

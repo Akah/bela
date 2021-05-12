@@ -9,3 +9,6 @@
 #include <editline/readline.h>
 #include <editline/history.h>
 #endif
+
+#define GENERATE_ENUM(ENUM) ENUM ,
+#define GENERATE_STRING(STRING) #STRING ,

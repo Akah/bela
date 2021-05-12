@@ -9,10 +9,8 @@
 // NOTE: list of arguements should be strings
 return_v* calc(char op, llist* args)
 {
-    puts("args:");
-    llist_print(args, llist_print_int);
     struct node* node = *args;
-    node = node->next; // skip firsdst null element
+    // node = node->next; // skip firsdst null element
     int total = atoi(node->data);
     node = node->next;
     while (node->data != NULL) {

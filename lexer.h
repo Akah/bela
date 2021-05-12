@@ -1,8 +1,9 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 #include "common.h"
 #include "llist.h"
 
-#ifndef LEXER_H
-#define LEXER_H
 
 #define FOREACH_LEXEME(T) \
     T(LEX_INV) \
@@ -13,15 +14,13 @@
     T(LEX_OBR) \
     T(LEX_CBR)
 
-#define GENERATE_ENUM(ENUM) ENUM ,
-#define GENERATE_STRING(STRING) #STRING ,
-
 typedef enum {
     FOREACH_LEXEME(GENERATE_ENUM)
 } lexeme_t;
 
 typedef struct {
     lexeme_t type;
+    int position[2];
     char* value;
 } lexeme;
 

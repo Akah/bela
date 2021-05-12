@@ -56,25 +56,20 @@ int main(int argc, char** argv)
 	add_history(input);
 
 	llist* tokens = scan(input);
-	if (tokens == NULL)
+	if (tokens == NULL) {
+	    puts("tokens list recieved from lexer is NULL");
 	    break;
+	}
+
 	llist_print(tokens, print_lexeme);
 
 	ast* ast = parse(tokens);
-	if (ast == NULL)
+	if (ast == NULL) {
+	    puts("abstract sytax tree return from parser is NULL");
 	    break;
+	}
 	print_ast(ast, 0);
-
-	// evaluation
-    //     if (expr->fn){
-	//     return_v* val = (return_v*)expr->fn(expr->exprs);
-	//      printf("--> %d\n", *(int *)(val->value));
-	//  } else {
-	//      puts("function pointer was null");
-	//  }
-
-	// /* llist_free(tokens); */
-	// /* free_expr(expr); */
     }
+
     return 0;
 }
