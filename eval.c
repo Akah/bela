@@ -3,16 +3,16 @@
 
 long eval_op(char* op, long x, long y)
 {
-    if (strcmp(op, "+") == 0) return x + x;
-    if (strcmp(op, "-") == 0) return x - x;
-    if (strcmp(op, "*") == 0) return x * x;
-    if (strcmp(op, "/") == 0) return x / x;
+    if (strcmp(op, "+") == 0) return x + y;
+    if (strcmp(op, "-") == 0) return x - y;
+    if (strcmp(op, "*") == 0) return x * y;
+    if (strcmp(op, "/") == 0) return x / y;
+    return 0;
 }
 
 long eval(ast* t)
 {
     if (t->tag == AST_NUM) {
-	printf("number: %s\n", t->contents);
 	return atoi(t->contents);
     }
 
@@ -24,13 +24,20 @@ long eval(ast* t)
 
     char* op = child_tree->contents;
 
-    printf("op: %s\n", op);
-
     long x = eval(child_list->next->data);
 
-    while (((ast*)child_list->data)->tag == AST_EXPR) {
-	child_list = child_list->next;
+    child_list = child_list->next->next;;
+
+    while (((ast*)child_list->data)->tag == AST_EXPR
+	   || ((ast*)child_list->data)->tag  == AST_NUM) {
+
 	x = eval_op(op, x, eval(child_list->data));
+
+	if (child_list->next != NULL) {
+	    child_list = child_list->next;
+	} else {
+	    break;
+	}
     }
 
 

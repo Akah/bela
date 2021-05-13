@@ -2,6 +2,7 @@ OBJS 	:= $(patsubst %.c,%.o,$(wildcard *.c))
 WARN 	:= -Werror -Wall -Wextra
 TARG 	:= repl
 OS   	:= $(shell uname)
+CFLAGS  := -g
 
 ifeq ($(OS),$(filter $(OS),Windows_NT CYGWIN_NT-10.0))
 # LIBS 	:= -lm -mwindows
@@ -17,7 +18,7 @@ ifeq ($(OS),Linux))
 endif
 endif
 
-$(info OS target: $(OS))
+$(info OS host: $(OS))
 ifdef ($(TARGET))
 	$(info Cross compiling: $(XC))
 endif
