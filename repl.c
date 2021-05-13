@@ -3,6 +3,7 @@
 #include "llist.h"
 #include "lexer.h"
 #include "parser.h"
+#include "eval.h"
 // TODO: move to seperate binary or atleast only include with flag
 #include "test.h"
 // TODO: move windows readline to seperate file
@@ -60,7 +61,6 @@ int main(int argc, char** argv)
 	    puts("tokens list recieved from lexer is NULL");
 	    break;
 	}
-
 	llist_print(tokens, print_lexeme);
 
 	ast* ast = parse(tokens);
@@ -69,6 +69,8 @@ int main(int argc, char** argv)
 	    break;
 	}
 	print_ast(ast, 0);
+
+	long result = eval(ast);
     }
 
     return 0;
