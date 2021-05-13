@@ -47,6 +47,9 @@ int handle_args(int argc, char* argv[])
 
 int main(int argc, char** argv)
 {
+#ifdef TEST
+    printf("this is a test\n");
+#else
     if (handle_args(argc, argv) == 1) {
 	run_tests();
     	return 0;
@@ -72,6 +75,7 @@ int main(int argc, char** argv)
 
 	long result = eval(ast);
     }
+#endif
 
     return 0;
 }

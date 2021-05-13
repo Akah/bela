@@ -1,28 +1,32 @@
-OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
-WARN := -Werror -Wall -Wextra
-TARG := repl
-OS   := linux
-CC   := gcc
+OBJS 	:= $(patsubst %.c,%.o,$(wildcard *.c))
+WARN 	:= -Werror -Wall -Wextra
+TARG 	:= repl
+OS   	:= $(shell uname)
 
-ifeq ($(OS),windows)
-	#LIBS 	:= -lm -mwindows
-	D 	:= -DWINDOWS
+ifeq ($(OS),Windows_NT)
+# LIBS 	:= -lm -mwindows
 	SUFFIX	:= .exe
 else
+	CC	:= gcc
 	LIBS 	:= -ledit -lm
 endif
 
+ifeq ($(TARGET),Windows_NT)
+ifeq ($(OS),Linux))
+	CC	:= x86_64-w64-mingw32-gcc
+endif
+endif
+
 $(info OS target: $(OS))
-$(info Cross compiling: $(XC))
-ifeq ($(OS), windows)
-$(info Macros defined: $(D))
+ifdef ($(TARGET))
+	$(info Cross compiling: $(XC))
 endif
 
 repl: $(OBJS)
-ifeq ($(OS),windows)
+ifdef ($(D))
 	@echo Macros defined: $(D)
 endif
-	$(CC) $(WARN) -o $(TARG) $(OBJS) $(LIBS)
+	$(CC) $(CFLAGS) $(WARN) -o $(TARG) $(OBJS) $(LIBS)
 	@echo Sucessfully built file: $(TARG)$(SUFFIX)
 
 lib: $(OBJS)
@@ -30,3 +34,11 @@ lib: $(OBJS)
 
 clean:
 	rm -rf $(OBJS) $(TARG)
+
+install:
+	sudo cp repl /usr/bin
+
+uninstall:
+	sudo rm /usr/bin/repl
+
+.PHONY: repl clean lib install uninstall
