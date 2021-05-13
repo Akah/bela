@@ -1,29 +1,11 @@
-#include "test.h"
 #include "common.h"
 #include "llist.h"
 #include "lexer.h"
 #include "parser.h"
 #include "eval.h"
-// TODO: move to seperate binary or atleast only include with flag
+
+#ifdef TEST
 #include "test.h"
-// TODO: move windows readline to seperate file
-#ifdef _WIN32
-
-static char buffer[2048];
-
-char* readline(char* prompt) {
-    fputs(prompt, stdout);
-    fgets(buffer, 2048, stdin);
-    char* cpy = malloc(strlen(buffer)+1);
-    strcpy(cpy, buffer);
-    cpy[strlen(cpy)-1] = '\0';
-    return cpy;
-}
-
-void add_history(char* unused) {
-    return;
-}
-
 #endif
 
 int handle_args(int argc, char* argv[])
@@ -48,12 +30,11 @@ int handle_args(int argc, char* argv[])
 int main(int argc, char** argv)
 {
 #ifdef TEST
-    printf("this is a test\n");
+    run_tests();
+    return 0;
 #else
-    if (handle_args(argc, argv) == 1) {
-	run_tests();
-    	return 0;
-    }
+
+    handle_args(argc, argv);
 
     while (1) {
 	char* input = readline("repl> ");
