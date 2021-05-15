@@ -3,11 +3,11 @@ WARN 	:= -Werror -Wall -Wextra
 TARG 	:= repl
 OS   	:= $(shell uname)
 
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS),$(filter $(OS),Windows_NT CYGWIN_NT-10.0))
 # LIBS 	:= -lm -mwindows
 	SUFFIX	:= .exe
-else
 	CC	:= gcc
+else
 	LIBS 	:= -ledit -lm
 endif
 
