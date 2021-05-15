@@ -3,6 +3,8 @@ WARN 	:= -Werror -Wall -Wextra
 TARG 	:= repl
 OS   	:= $(shell uname)
 CFLAGS  := -g
+CFLAGS 	+= -Dtime="\"$(shell date --utc +%Y-%m-%dT%H:%M:%SZ)\""
+CFLAGS  += -Dbuild="\"$(shell uname -svrpo)\""
 
 ifeq ($(OS),$(filter $(OS),Windows_NT CYGWIN_NT-10.0))
 # LIBS 	:= -lm -mwindows

@@ -16,22 +16,20 @@ long eval(ast* t)
 	return atoi(t->contents);
     }
 
-    struct node* child_list = *t->children;
-
-    child_list = child_list->next;
+    struct node* child_list = (*t->children)->next;
 
     ast* child_tree = child_list->data;
 
     char* op = child_tree->contents;
 
-    long x = eval(child_list->next->data);
+    long result = eval(child_list->next->data);
 
     child_list = child_list->next->next;;
 
     while (((ast*)child_list->data)->tag == AST_EXPR
 	   || ((ast*)child_list->data)->tag  == AST_NUM) {
 
-	x = eval_op(op, x, eval(child_list->data));
+	result = eval_op(op, result, eval(child_list->data));
 
 	if (child_list->next != NULL) {
 	    child_list = child_list->next;
@@ -40,9 +38,6 @@ long eval(ast* t)
 	}
     }
 
-
-    printf("result: %ld\n", x);
-
-    return x;
+    return result;
 
 }
